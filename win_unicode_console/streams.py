@@ -211,6 +211,10 @@ def check_stream(stream, fileno):
 	if stream is None:	# e.g. with IDLE
 		return True
 	
+	# For Visual Studio Python debugger _DebuggerOutput wrapper
+	if not hasattr(stream, 'fileno') and hasattr(stream, 'old_out'):
+		stream = stream.old_out
+
 	try:
 		_fileno = stream.fileno()
 	except io.UnsupportedOperation:
